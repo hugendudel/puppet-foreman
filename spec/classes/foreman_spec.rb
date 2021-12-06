@@ -433,6 +433,25 @@ describe 'foreman' do
 
         it { should contain_user('foreman').with('groups' => []) }
       end
+
+      # config with trusted_proxies parameters
+      describe 'with trusted proxy' do
+        context 'foo' do
+          let(:params) {
+            super().merge(
+              trusted_proxies:
+                [
+                  '127.0.0.1'
+                ],
+            )
+          }
+          it 'should configure trusted proxy in settings.yaml' do
+            is_expected.to contain_concat__fragment('foreman_settings.yaml')
+              .with_content(/^:trusted_proxies:\n\s+127.0.0.1$/)
+          end
+        end
+      end
+
     end
   end
 end

@@ -186,6 +186,8 @@
 #
 # $dynflow_redis_url::            If set, the redis server is not managed and we use the defined url to connect
 #
+# $trusted_proxies                Trusted proxies, in case there is forwarded traffic or similar
+#
 # === Keycloak parameters:
 #
 # $keycloak::                     Enable Keycloak support. Note this is limited
@@ -286,6 +288,7 @@ class foreman (
   String[1] $keycloak_app_name = $foreman::params::keycloak_app_name,
   String[1] $keycloak_realm = $foreman::params::keycloak_realm,
   Boolean $register_in_foreman = $foreman::params::register_in_foreman,
+  Optional[Array[String[1]]] $trusted_proxies = [],
 ) inherits foreman::params {
   if $db_sslmode == 'UNSET' and $db_root_cert {
     $db_sslmode_real = 'verify-full'

@@ -108,3 +108,14 @@
     :namespace: foreman
 <%   end -%>
 <% end -%>
+
+
+<% unless scope.lookupvar('foreman::trusted_proxies').empty? -%>
+# Trusted proxies, in case there is forwarded traffic or similar.
+# -> Reverse proxy handling
+# https://theforeman.org/manuals/2.4/index.html#Upgradewarnings
+:trusted_proxies:
+<% scope["foreman::trusted_proxies"].each do |trusted_proxy| -%>
+  - <%= trusted_proxy %>
+<% end -%>
+<% end -%>
